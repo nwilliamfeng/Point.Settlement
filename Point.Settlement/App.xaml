@@ -1,9 +1,16 @@
 ﻿<Application x:Class="Point.Settlement.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Point.Settlement"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:Point.Settlement" >
     <Application.Resources>
-         
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                 
+                <ResourceDictionary>
+                    <local:MefBootstrapper x:Key="bootstrapper"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
