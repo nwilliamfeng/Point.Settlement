@@ -11,7 +11,7 @@ namespace Point.Settlement.ViewModels
     [Export(typeof(RunStepViewModelBase))]
     public class PointClearValidityStepViewModel : RunStepViewModelBase
     {
-
+        [ImportingConstructor]
         public PointClearValidityStepViewModel(IEventAggregator eventAggregator)
             :base(eventAggregator)
         {
@@ -20,9 +20,12 @@ namespace Point.Settlement.ViewModels
 
         protected override bool CanExecute => throw new NotImplementedException();
 
-        protected override void Execute()
+        protected override Task ExecuteCore()
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                Console.WriteLine("run!!");
+            });
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
+using Point.Settlement.Model;
 
 namespace Point.Settlement.ViewModels
 {
@@ -23,22 +24,21 @@ namespace Point.Settlement.ViewModels
             System.Windows.Application.Current.Dispatcher.Invoke(() => this.EventAggregator.PublishOnUIThread(new MessageEventArgs(msg)));
         }
 
-        private string _stateInfo;
+        private EnumClearState _state= EnumClearState.NotBegin;
 
-        public string StateInfo
+        public EnumClearState State
         {
-            get { return this._stateInfo; }
-
+            get { return this._state; }
             protected set
             {
-                this._stateInfo = value;
-                this.NotifyOfPropertyChange(() => this.StateInfo);
+                this._state = value;
+                this.NotifyOfPropertyChange(() => this.State);
             }
         }
 
         protected abstract bool CanExecute { get; }
 
-        protected abstract void Execute();
+        protected abstract Task ExecuteCore();
 
         private ICommand _runCommand;
 
@@ -46,9 +46,11 @@ namespace Point.Settlement.ViewModels
         {
             get
             {
-                return this._runCommand ?? (this._runCommand = new RelayCommand(() =>
-                    {
-                        Console.WriteLine();
+                return this._runCommand ?? (this._runCommand = new RelayCommand(async() =>
+                    {                   
+                        this.State = EnumClearState.Clearing;
+                        await this.ExecuteCore();
+                        this.State = EnumClearState.Finished;
                     }, () => this.CanExecute));
             }
         }
