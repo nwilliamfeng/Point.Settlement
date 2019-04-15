@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Point.Settlement
 {
-    public class MessageEventArgs:EventArgs
+    public class InfoEventArgs:EventArgs
     {
 
-        public MessageEventArgs(string msg)
+        public InfoEventArgs(string msg)
         {
             this.Content = msg;
         }

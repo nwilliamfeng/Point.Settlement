@@ -4,13 +4,139 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Point.Settlement"
+        xmlns:vm="clr-namespace:Point.Settlement.ViewModels"
         mc:Ignorable="d"
-        Title="积分清算系统" Height="450" Width="800">
-    <Grid>
+        Title="积分清算" Height="450" Width="800">
+    <Grid Margin="5">
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="CheckBox">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.6*"/>
-            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.65*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.35*"/>
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="1" Background="MintCream" TextWrapping="Wrap" AcceptsReturn="True"/>
+        <GroupBox>
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="参数" VerticalAlignment="Center" Foreground="Gray"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <Border Padding="10,5,5,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!--清算日期-->
+                    <TextBlock Text="清算日期：" VerticalAlignment="Center"/>
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker SelectedDate="{Binding ClearDate}"  Width="120"/>
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Info}" Grid.Column="1" Foreground="ForestGreen" FontSize="14"/>
+                    </Grid>
+                    <!--清算内容-->
+                    <TextBlock Text="清算内容：" VerticalAlignment="Top" Grid.Row="2" />
+                    <!--清算进程列表-->
+                    <ScrollViewer Grid.Column="2"  Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding RunSteps,Mode=OneWay}"  >
+                            <ItemsControl.Resources>
+                                <DataTemplate DataType="{x:Type vm:PointClearValidityStepViewModel}">
+                                    <TextBlock Text="{Binding DisplayNameWithOrder}"/>
+                                </DataTemplate>
+                            </ItemsControl.Resources>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="Transparent" Padding="5">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border BorderThickness="1" Padding="1" BorderBrush="Black" Height="12" Width="12">
+                                                <TextBlock Text="√" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding DisplayNameWithOrder}" VerticalAlignment="Center" Grid.Column="1"  Margin="5,0,20,0"/>
+                                            <Button Command="{Binding ShowErrorListCommand}" HorizontalAlignment="Left" Content="查看异常列表" Grid.Column="2" Padding="10,5" Visibility="{Binding ShowErrorListEnable,Converter={x:Static local:ValueConverters.BooleanToVisibilityConverter}}" />
+                                            <TextBlock Grid.Column="4" FontStyle="Italic"   VerticalAlignment="Center" Text="{Binding State,Converter={x:Static local:ValueConverters.RunStepStateConverter}}" >
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding State}" Value="NotBegin">
+                                                                <Setter Property="Foreground" Value="Gray"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding State}" Value="Finished">
+                                                                <Setter Property="Foreground" Value="Blue"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding State}" Value="Error">
+                                                                <Setter Property="Foreground" Value="Red"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding State}" Value="Clearing">
+                                                                <Setter Property="Foreground" Value="Green"/>
+                                                            </DataTrigger>
+
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                        </Grid>
+                                    </Border>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+           
+        </GroupBox>
+        
+        <!--命令栏-->
+        <ScrollViewer Grid.Row="1" Margin="0,10" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding RunSteps,Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding NameWithOrder}" Margin="0,0,10,0" Padding="10" FontSize="16" Width="120" Command="{Binding RunCommand}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        <!--清算日志输出-->
+        <GroupBox Grid.Row="2" >
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="日志输出" VerticalAlignment="Center" Foreground="Gray"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <TextBox Background="Beige" TextWrapping="Wrap" AcceptsReturn="True"/>
+        </GroupBox>
+        
     </Grid>
 </Window>

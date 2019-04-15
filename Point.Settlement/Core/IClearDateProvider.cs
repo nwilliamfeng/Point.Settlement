@@ -7,8 +7,12 @@ using Point.Settlement.Model;
 
 namespace Point.Settlement
 {
-    public interface IClearStepInfoProvider
+    public interface IClearDateValidator
     {
-        ClearSetpInfo GetRuningStep(DateTime clearDate);
+        DateTime GetDate();
+
+        DateTime Validate(DateTime date);
     }
+
+    
 }

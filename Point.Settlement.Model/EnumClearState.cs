@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Point.Settlement.Model
 {
     public enum EnumClearState

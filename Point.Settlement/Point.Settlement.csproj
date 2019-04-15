@@ -40,6 +40,9 @@
     <Reference Include="Caliburn.Micro.Platform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,16 +64,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClearSteps.cs" />
-    <Compile Include="Core\IClearStepInfoProvider.cs" />
+    <Compile Include="Core\IClearDateProvider.cs" />
     <Compile Include="Core\IClearStepRunService.cs" />
-    <Compile Include="Core\Mock\ClearStepProviderMock.cs" />
+    <Compile Include="Core\Imp\ClearDateValidator.cs" />
+    <Compile Include="Core\Imp\ClearStepRunService.cs" />
+    <Compile Include="Core\Mock\ClearConfigManagerMock.cs" />
+    <Compile Include="Core\Mock\ClearConfigDataAccess.cs" />
+    <Compile Include="Events\ClearRunStepChangeEventArgs.cs" />
     <Compile Include="Events\ClearDateChangeEventArgs.cs" />
-    <Compile Include="Events\MessageEventArgs.cs" />
+    <Compile Include="Events\InfoEventArgs.cs" />
+    <Compile Include="Events\LogOutputEventArgs.cs" />
     <Compile Include="Util\DelegateValueConverter.cs" />
     <Compile Include="Util\RelayCommand.cs" />
     <Compile Include="Util\RelayCommand.Generic.cs" />
+    <Compile Include="ValueConverters.cs" />
+    <Compile Include="ViewModels\PointWriteBackStepViewModel.cs" />
     <Compile Include="ViewModels\PointClearValidityStepViewModel.cs" />
-    <Compile Include="ViewModels\RunStepViewModel.cs" />
+    <Compile Include="ViewModels\RunStepViewModelBase.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>

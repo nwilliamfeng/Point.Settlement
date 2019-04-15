@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClearSetpInfo.cs" />
+    <Compile Include="ClearStepInfo.cs" />
     <Compile Include="EnumClearState.cs" />
     <Compile Include="ClearConfigInfo.cs" />
     <Compile Include="EntityBase.cs" />

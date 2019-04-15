@@ -9,10 +9,10 @@ namespace Point.Settlement.Model
     /// <summary>
     /// 清算步骤
     /// </summary>
-    public class ClearSetpInfo
+    public class ClearStepInfo
     {
-        public ClearSetpInfo PrevStep;
-        public ClearSetpInfo NextStep;
+        public ClearStepInfo PrevStep;
+        public ClearStepInfo NextStep;
         /// <summary>
         /// 当前清算步骤
         /// </summary>
@@ -49,9 +49,9 @@ namespace Point.Settlement.Model
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ClearSetpInfo))
+            if (!(obj is ClearStepInfo))
                 return false;
-            return this.ClearStep == (obj as ClearSetpInfo).ClearStep;
+            return this.ClearStep == (obj as ClearStepInfo).ClearStep;
         }
     }
 }

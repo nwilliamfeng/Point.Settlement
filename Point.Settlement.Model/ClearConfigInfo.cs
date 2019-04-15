@@ -56,5 +56,17 @@ namespace Point.Settlement.Model
         {
             this.Remark += string.Format("[{0}]{1}\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), remark);
         }
+
+        public override int GetHashCode()
+        {
+            return  this.ClearDate.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is ClearConfigInfo))
+                return false;
+            return this.ClearDate==(obj as ClearConfigInfo).ClearDate;
+        }
     }
 }
