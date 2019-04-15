@@ -7,15 +7,15 @@ using Point.Settlement.Model;
 
 namespace Point.Settlement
 {
-    public class ClearRunStepChangeEventArgs : EventArgs
+    public class ClearRunStepFinishEventArgs : EventArgs
     {
 
-        public ClearRunStepChangeEventArgs(ClearStepInfo step)
+        public ClearRunStepFinishEventArgs(string step)
         {
             this.Step = step;
         }
 
-        public ClearStepInfo Step { get; private set; }
+        public string Step { get; private set; }
         
     }
 }

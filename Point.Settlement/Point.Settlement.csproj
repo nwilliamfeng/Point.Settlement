@@ -70,7 +70,7 @@
     <Compile Include="Core\Imp\ClearStepRunService.cs" />
     <Compile Include="Core\Mock\ClearConfigManagerMock.cs" />
     <Compile Include="Core\Mock\ClearConfigDataAccess.cs" />
-    <Compile Include="Events\ClearRunStepChangeEventArgs.cs" />
+    <Compile Include="Events\ClearRunStepFinishEventArgs.cs" />
     <Compile Include="Events\ClearDateChangeEventArgs.cs" />
     <Compile Include="Events\InfoEventArgs.cs" />
     <Compile Include="Events\LogOutputEventArgs.cs" />

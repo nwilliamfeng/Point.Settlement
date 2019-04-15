@@ -10,13 +10,16 @@ using Point.Settlement.Model;
 
 namespace Point.Settlement.ViewModels
 {
-    public abstract class RunStepViewModelBase:PropertyChangedBase,IHandle<ClearDateChangeEventArgs>,IHandle<ClearRunStepChangeEventArgs>
+    public abstract class RunStepViewModelBase:PropertyChangedBase,IHandle<ClearDateChangeEventArgs>,IHandle<ClearRunStepFinishEventArgs>
     {
-        protected IEventAggregator EventAggregator { get; set; }
+        protected IEventAggregator EventAggregator { get;private set; }
 
-        protected RunStepViewModelBase(IEventAggregator eventAggregator)
+        protected IClearStepRunService ClearStepRunService { get; private set; }
+
+        protected RunStepViewModelBase(IEventAggregator eventAggregator,IClearStepRunService runService)
         {
             this.EventAggregator = eventAggregator;
+            this.ClearStepRunService = runService;
             this.EventAggregator.Subscribe(this);
         }
 
@@ -25,17 +28,17 @@ namespace Point.Settlement.ViewModels
             System.Windows.Application.Current.Dispatcher.Invoke(() => this.EventAggregator.PublishOnUIThread(new LogOutputEventArgs(msg)));
         }
 
-        //private EnumClearState _state= EnumClearState.NotBegin;
+        private EnumClearState _state= EnumClearState.NotBegin;
 
-        //public EnumClearState State
-        //{
-        //    get { return this._state; }
-        //    protected set
-        //    {
-        //        this._state = value;
-        //        this.NotifyOfPropertyChange(() => this.State);
-        //    }
-        //}
+        public EnumClearState State
+        {
+            get { return this._state; }
+            protected set
+            {
+                this._state = value;
+                this.NotifyOfPropertyChange(() => this.State);
+            }
+        }
 
         protected DateTime ClearDate { get; private set; }
 
@@ -43,18 +46,7 @@ namespace Point.Settlement.ViewModels
 
         public abstract int Order { get; }
 
-        private string _info;
-
-        public string Info
-        {
-            get { return this._info; }
-            protected set
-            {
-                this._info = value;
-                this.NotifyOfPropertyChange(()=>this.Info);
-            }
-        }
-        
+    
 
         public abstract string Name { get; }
 
@@ -70,21 +62,25 @@ namespace Point.Settlement.ViewModels
 
         void IHandle<ClearDateChangeEventArgs>.Handle(ClearDateChangeEventArgs arg)
         {
-            this.ClearDate = arg.Date;
+            this.OnClearDateChange(arg.Date);
         }
 
-        void IHandle<ClearRunStepChangeEventArgs>.Handle(ClearRunStepChangeEventArgs arg)
+        protected virtual void OnClearDateChange(DateTime date)
+        {
+            this.ClearDate = date;
+            this.State = EnumClearState.NotBegin;
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        void IHandle<ClearRunStepFinishEventArgs>.Handle(ClearRunStepFinishEventArgs arg)
         {
             this.OnClearRunStepChange(arg.Step);
         }
 
         protected ClearStepInfo CurrentRunStep { get; private set; }
 
-        protected virtual void OnClearRunStepChange(ClearStepInfo step)
-        {
-            this.CurrentRunStep = step;
-            CommandManager.InvalidateRequerySuggested();          
-        }
+        protected abstract void OnClearRunStepChange(string step);
+       
 
         private ICommand _runCommand;
 
@@ -96,7 +92,8 @@ namespace Point.Settlement.ViewModels
                     {                   
                         this.State = EnumClearState.Clearing;
                         await this.ExecuteCore();
-                        this.State = EnumClearState.Finished;
+                        var step = this.ClearStepRunService.GetRuningStep(this.ClearDate);
+                        this.State=step==null?EnumClearState.Error:step.ClearState;
                     }, () => this.CanExecute));
             }
         }
