@@ -64,7 +64,7 @@ namespace Point.Settlement
                 }
             }
            
-            return cleardate;
+            return cleardate.Date;
         }
 
         

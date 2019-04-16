@@ -14,8 +14,8 @@ namespace Point.Settlement.Mock
 
         private static ClearStepInfo step1;
         private static ClearStepInfo step2;
-        private static ClearStepInfo step6;
-        private static ClearStepInfo step7;
+      //  private static ClearStepInfo step6;
+      //  private static ClearStepInfo step7;
         private static ClearStepInfo step3;
         private static ClearStepInfo step4;
         private static ClearStepInfo step5;
@@ -35,18 +35,18 @@ namespace Point.Settlement.Mock
                 Index = 2,
                 ClearStepName = "异常处理"
             };
-            step6 = new ClearStepInfo()
-            {
-                ClearStep = "Step6",
-                Index = 3,
-                ClearStepName = "激活校验"
-            };
-            step7 = new ClearStepInfo()
-            {
-                ClearStep = "Step7",
-                Index = 4,
-                ClearStepName = "激活回置"
-            };
+            //step6 = new ClearStepInfo()
+            //{
+            //    ClearStep = "Step6",
+            //    Index = 3,
+            //    ClearStepName = "激活校验"
+            //};
+            //step7 = new ClearStepInfo()
+            //{
+            //    ClearStep = "Step7",
+            //    Index = 4,
+            //    ClearStepName = "激活回置"
+            //};
             step3 = new ClearStepInfo()
             {
                 ClearStep = "Step3",
@@ -71,18 +71,18 @@ namespace Point.Settlement.Mock
             dicstep.Add(step1.ClearStep, step1);
 
             step2.PrevStep = step1;
-            step2.NextStep = step6;
+            step2.NextStep = step3;
             dicstep.Add(step2.ClearStep, step2);
 
-            step6.PrevStep = step2;
-            step6.NextStep = step7;
-            dicstep.Add(step6.ClearStep, step6);
+          //  step6.PrevStep = step2;
+          //  step6.NextStep = step7;
+         //   dicstep.Add(step6.ClearStep, step6);
 
-            step7.PrevStep = step6;
-            step7.NextStep = step3;
-            dicstep.Add(step7.ClearStep, step7);
+          //  step7.PrevStep = step6;
+         //   step7.NextStep = step3;
+         //   dicstep.Add(step7.ClearStep, step7);
 
-            step3.PrevStep = step7;
+            step3.PrevStep = step2;
             step3.NextStep = step4;
             dicstep.Add(step3.ClearStep, step3);
 
@@ -137,6 +137,7 @@ namespace Point.Settlement.Mock
         {
             if (ClearDate.HasValue)
             {
+                Console.WriteLine("GetRuningStep");
                 _clearconfig = ClearConfigDataAccessMock.Current.GetConfigInfo(ClearDate.Value);
                 if (_clearconfig == null)
                 {

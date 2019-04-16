@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Point.Settlement.Model;
 
 namespace Point.Settlement
 {
@@ -12,9 +13,11 @@ namespace Point.Settlement
         public ClearDateChangeEventArgs(DateTime date)
         {
             this.Date = date;
+      
         }
 
         public DateTime Date { get; private set; }
+
         
     }
 }

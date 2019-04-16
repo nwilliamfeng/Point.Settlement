@@ -71,6 +71,8 @@ namespace Point.Settlement.Mock
             var info = infos.FirstOrDefault(x => x.Equals(configinfo));
             if (info == null)
                 infos.Add(configinfo);
+            else
+                infos[infos.IndexOf(info)] = configinfo;
             File.WriteAllText(this.GetFile(), JsonConvert.SerializeObject(infos));
             return true;
         }

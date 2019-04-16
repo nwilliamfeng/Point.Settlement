@@ -64,13 +64,20 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClearSteps.cs" />
+    <Compile Include="Core\ClearRunStepExtensions.cs" />
     <Compile Include="Core\IClearDateProvider.cs" />
     <Compile Include="Core\IClearStepRunService.cs" />
     <Compile Include="Core\Imp\ClearDateValidator.cs" />
     <Compile Include="Core\Imp\ClearStepRunService.cs" />
     <Compile Include="Core\Mock\ClearConfigManagerMock.cs" />
     <Compile Include="Core\Mock\ClearConfigDataAccess.cs" />
-    <Compile Include="Events\ClearRunStepFinishEventArgs.cs" />
+    <Compile Include="Core\Mock\PointReportClearMock.cs" />
+    <Compile Include="Core\Mock\PointReturnClearMock.cs" />
+    <Compile Include="Core\Mock\PointStatementClearMock.cs" />
+    <Compile Include="Core\Mock\PointVaildClearMock.cs" />
+    <Compile Include="Core\Mock\PointWriteBackMock.cs" />
+    <Compile Include="Core\Mock\ValidClearMockBase.cs" />
+    <Compile Include="Events\ClearRunStepChangeEventArgs.cs" />
     <Compile Include="Events\ClearDateChangeEventArgs.cs" />
     <Compile Include="Events\InfoEventArgs.cs" />
     <Compile Include="Events\LogOutputEventArgs.cs" />
@@ -78,6 +85,9 @@
     <Compile Include="Util\RelayCommand.cs" />
     <Compile Include="Util\RelayCommand.Generic.cs" />
     <Compile Include="ValueConverters.cs" />
+    <Compile Include="ViewModels\PointReturnClearViewModel.cs" />
+    <Compile Include="ViewModels\PointStatementClearViewModel.cs" />
+    <Compile Include="ViewModels\PointReportClearViewModel.cs" />
     <Compile Include="ViewModels\PointWriteBackStepViewModel.cs" />
     <Compile Include="ViewModels\PointClearValidityStepViewModel.cs" />
     <Compile Include="ViewModels\RunStepViewModelBase.cs" />

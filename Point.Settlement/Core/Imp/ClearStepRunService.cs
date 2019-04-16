@@ -14,7 +14,10 @@ namespace Point.Settlement
     {
         public Task Execute(DateTime clearDate, ClearStepInfo step, Action<string> msgHandle)
         {
-            return null;
+            return Task.Run(() =>
+            {
+                ClearConfigManagerMock.RunStep(step);
+            });
         }
 
         public ClearStepInfo GetRuningStep(DateTime clearDate)

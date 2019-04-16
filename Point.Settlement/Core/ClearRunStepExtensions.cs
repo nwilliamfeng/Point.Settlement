@@ -7,15 +7,11 @@ using Point.Settlement.Model;
 
 namespace Point.Settlement
 {
-    public class ClearRunStepFinishEventArgs : EventArgs
+    public static class ClearRunStepExtensions
     {
-
-        public ClearRunStepFinishEventArgs(string step)
+        public static int GetOrder(this ClearStepInfo step)
         {
-            this.Step = step;
+            return int.Parse(step.ClearStep.Last().ToString());
         }
-
-        public string Step { get; private set; }
-        
     }
 }
